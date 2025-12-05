@@ -108,24 +108,62 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            flex: 1;
+            min-width: 200px;
         }
 
         .filter-group label {
             font-weight: 600;
             color: #333;
+            white-space: nowrap;
         }
 
         select, input {
-            padding: 8px 15px;
+            padding: 10px 15px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            flex: 1;
         }
 
         select:focus, input:focus {
             border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .reset-btn {
+            padding: 10px 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .filter-info {
+            width: 100%;
+            padding: 10px 15px;
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            border-radius: 5px;
+            color: #0d47a1;
+            font-size: 14px;
+            display: none;
+        }
+
+        .filter-info.active {
+            display: block;
         }
 
         .table-container {
@@ -198,6 +236,19 @@
             font-weight: bold;
         }
 
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .highlight {
+            background: #fff59d;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -209,7 +260,7 @@
             }
 
             .stats-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
 
             .filters {
@@ -220,6 +271,7 @@
             .filter-group {
                 flex-direction: column;
                 align-items: stretch;
+                min-width: 100%;
             }
 
             table {
@@ -246,36 +298,38 @@
 
         <div class="stats-container">
             <div class="stat-card">
-                <div class="stat-number">18</div>
+                <div class="stat-number" id="totalLulusan">18</div>
                 <div class="stat-label">Total Lulusan</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">3.19</div>
+                <div class="stat-number" id="ipkRata">3.19</div>
                 <div class="stat-label">IPK Rata-rata</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">16</div>
+                <div class="stat-number" id="sangatMemuaskan">16</div>
                 <div class="stat-label">Sangat Memuaskan</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">2</div>
+                <div class="stat-number" id="memuaskan">2</div>
                 <div class="stat-label">Memuaskan</div>
             </div>
         </div>
 
         <div class="filters">
             <div class="filter-group">
-                <label>Filter Predikat:</label>
-                <select id="filterPredikat" onchange="filterData()">
-                    <option value="">Semua</option>
+                <label>🎓 Filter Predikat:</label>
+                <select id="filterPredikat">
+                    <option value="">Semua Predikat</option>
                     <option value="Sangat Memuaskan">Sangat Memuaskan</option>
                     <option value="Memuaskan">Memuaskan</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label>Cari Nama:</label>
-                <input type="text" id="searchName" placeholder="Ketik nama mahasiswa..." oninput="filterData()">
+                <label>🔍 Cari Nama:</label>
+                <input type="text" id="searchName" placeholder="Masukkan nama mahasiswa...">
             </div>
+            <button class="reset-btn" onclick="resetFilters()">Reset Filter</button>
+            <div class="filter-info" id="filterInfo"></div>
         </div>
 
         <div class="table-container">
@@ -329,13 +383,25 @@
                 : '<span class="badge badge-good">Memuaskan</span>';
         }
 
-        function renderTable(filteredData) {
+        function highlightText(text, search) {
+            if (!search) return text;
+            const regex = new RegExp(`(${search})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function renderTable(filteredData, searchTerm = '') {
             const tbody = document.getElementById('tableBody');
+            
+            if (filteredData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-data">❌ Tidak ada data yang sesuai dengan filter yang dipilih</td></tr>';
+                return;
+            }
+            
             tbody.innerHTML = filteredData.map(m => `
                 <tr>
                     <td>${m.no}</td>
                     <td>${m.nim}</td>
-                    <td><strong>${m.nama}</strong></td>
+                    <td><strong>${highlightText(m.nama, searchTerm)}</strong></td>
                     <td><span class="${getIPKClass(m.ipk)}">${m.ipk}</span></td>
                     <td>${m.semester} Semester (${m.bulan} Bulan)</td>
                     <td>${getBadge(m.predikat)}</td>
@@ -343,19 +409,79 @@
             `).join('');
         }
 
-        function filterData() {
-            const predikat = document.getElementById('filterPredikat').value;
-            const search = document.getElementById('searchName').value.toLowerCase();
+        function updateStats(filteredData) {
+            document.getElementById('totalLulusan').textContent = filteredData.length;
             
-            const filtered = data.filter(m => 
-                (!predikat || m.predikat === predikat) &&
-                (!search || m.nama.toLowerCase().includes(search))
-            );
-            
-            renderTable(filtered);
+            if (filteredData.length > 0) {
+                const avgIPK = (filteredData.reduce((sum, m) => sum + m.ipk, 0) / filteredData.length).toFixed(2);
+                document.getElementById('ipkRata').textContent = avgIPK;
+                
+                const sangatMemuaskan = filteredData.filter(m => m.predikat === "Sangat Memuaskan").length;
+                const memuaskan = filteredData.filter(m => m.predikat === "Memuaskan").length;
+                
+                document.getElementById('sangatMemuaskan').textContent = sangatMemuaskan;
+                document.getElementById('memuaskan').textContent = memuaskan;
+            } else {
+                document.getElementById('ipkRata').textContent = '0.00';
+                document.getElementById('sangatMemuaskan').textContent = '0';
+                document.getElementById('memuaskan').textContent = '0';
+            }
         }
 
-        renderTable(data);
+        function showFilterInfo(predikat, search, count) {
+            const filterInfo = document.getElementById('filterInfo');
+            let message = '';
+            
+            if (predikat && search) {
+                message = `📊 Menampilkan ${count} mahasiswa dengan predikat "${predikat}" dan nama mengandung "${search}"`;
+            } else if (predikat) {
+                message = `📊 Menampilkan ${count} mahasiswa dengan predikat "${predikat}"`;
+            } else if (search) {
+                message = `📊 Menampilkan ${count} mahasiswa dengan nama mengandung "${search}"`;
+            }
+            
+            if (message) {
+                filterInfo.textContent = message;
+                filterInfo.classList.add('active');
+            } else {
+                filterInfo.classList.remove('active');
+            }
+        }
+
+        function filterData() {
+            const predikat = document.getElementById('filterPredikat').value;
+            const search = document.getElementById('searchName').value.trim();
+            
+            let filtered = data;
+            
+            // Filter berdasarkan predikat
+            if (predikat) {
+                filtered = filtered.filter(m => m.predikat === predikat);
+            }
+            
+            // Filter berdasarkan pencarian nama
+            if (search) {
+                const searchLower = search.toLowerCase();
+                filtered = filtered.filter(m => m.nama.toLowerCase().includes(searchLower));
+            }
+            
+            renderTable(filtered, search);
+            updateStats(filtered);
+            showFilterInfo(predikat, search, filtered.length);
+        }
+
+        function resetFilters() {
+            document.getElementById('filterPredikat').value = '';
+            document.getElementById('searchName').value = '';
+            filterData();
+        }
+
+        // Event listeners
+        document.getElementById('filterPredikat').addEventListener('change', filterData);
+        document.getElementById('searchName').addEventListener('input', filterData);
+
+        // Initial render
+        filterData();
     </script>
 </body>
 </html>
