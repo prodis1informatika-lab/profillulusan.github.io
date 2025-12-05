@@ -298,19 +298,19 @@
 
         <div class="stats-container">
             <div class="stat-card">
-                <div class="stat-number" id="totalLulusan">18</div>
+                <div class="stat-number" id="totalLulusan">19</div>
                 <div class="stat-label">Total Lulusan</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="ipkRata">3.19</div>
+                <div class="stat-number" id="ipkRata">3.21</div>
                 <div class="stat-label">IPK Rata-rata</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="sangatMemuaskan">16</div>
+                <div class="stat-number" id="sangatMemuaskan">15</div>
                 <div class="stat-label">Sangat Memuaskan</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="memuaskan">2</div>
+                <div class="stat-number" id="memuaskan">4</div>
                 <div class="stat-label">Memuaskan</div>
             </div>
         </div>
@@ -352,23 +352,24 @@
     <script>
         const data = [
             { no: 1, nim: "202165011", nama: "MIZHAEL PARUBAK", ipk: 3.57, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
-            { no: 2, nim: "201865052", nama: "EMI ZUHAIMI", ipk: 3.48, semester: 15, bulan: 87, predikat: "Sangat Memuaskan" },
-            { no: 3, nim: "202165035", nama: "JOSHUA ADRIEL BEMEY", ipk: 3.48, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 2, nim: "202165035", nama: "JOSHUA ADRIEL BEMEY", ipk: 3.48, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 3, nim: "201865052", nama: "EMI ZUHAIMI", ipk: 3.48, semester: 15, bulan: 87, predikat: "Sangat Memuaskan" },
             { no: 4, nim: "202165001", nama: "RITA SOVIANA", ipk: 3.47, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
-            { no: 5, nim: "202165054", nama: "DINDA MALIKA DWI PRATIWI", ipk: 3.41, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
-            { no: 6, nim: "202165041", nama: "ARNIAWATI", ipk: 3.36, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
-            { no: 7, nim: "202165008", nama: "YOHAN DWI BACHTIAR", ipk: 3.25, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
-            { no: 8, nim: "202165027", nama: "CHARLES PADWA", ipk: 3.34, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
-            { no: 9, nim: "202065037", nama: "ARI FAOLI", ipk: 3.33, semester: 11, bulan: 63, predikat: "Sangat Memuaskan" },
-            { no: 10, nim: "202165031", nama: "DANIEL LAERAH", ipk: 3.29, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
-            { no: 11, nim: "202165051", nama: "GLENN MARTHIN KAMBU", ipk: 3.24, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
-            { no: 12, nim: "202165006", nama: "CHARLIE CHRISTOVEL WATOPA", ipk: 3.16, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
-            { no: 13, nim: "202065013", nama: "YORDAN ARISTA", ipk: 3.11, semester: 11, bulan: 63, predikat: "Sangat Memuaskan" },
-            { no: 14, nim: "201965037", nama: "ROBERT YEMAISE", ipk: 2.96, semester: 13, bulan: 75, predikat: "Sangat Memuaskan" },
-            { no: 15, nim: "202065036", nama: "ARINDA KRANIA PRAMESWARA", ipk: 2.91, semester: 11, bulan: 63, predikat: "Sangat Memuaskan" },
-            { no: 16, nim: "202165056", nama: "TIMOTI JAMES KAWAY", ipk: 2.91, semester: 9, bulan: 51, predikat: "Memuaskan" },
-            { no: 17, nim: "201865040", nama: "SOSIA FADAS MAFEAK", ipk: 2.90, semester: 15, bulan: 87, predikat: "Memuaskan" },
-            { no: 18, nim: "201865026", nama: "JENIANTI BETTENG", ipk: 2.73, semester: 15, bulan: 87, predikat: "Memuaskan" }
+            { no: 5, nim: "202165047", nama: "NOVELIA SIRAHELUT", ipk: 3.41, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 6, nim: "202165034", nama: "DINDA MALIKA DWI PRATIWI", ipk: 3.41, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 7, nim: "202165041", nama: "ARNIAWATI", ipk: 3.36, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 8, nim: "202165008", nama: "YOHAN DWI BACHTIAR", ipk: 3.35, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 9, nim: "202165027", nama: "CHARLES PADWA", ipk: 3.34, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 10, nim: "202065037", nama: "ARI FAOLI", ipk: 3.33, semester: 11, bulan: 63, predikat: "Sangat Memuaskan" },
+            { no: 11, nim: "202165031", nama: "DANIEL LAERAH", ipk: 3.29, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 12, nim: "202165051", nama: "GLENN MARTHIN KAMBU", ipk: 3.24, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 13, nim: "202165006", nama: "CHARLIE CHRISTOFEL WATOPA", ipk: 3.16, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 14, nim: "202065013", nama: "YORDAN ARISTA", ipk: 3.11, semester: 11, bulan: 63, predikat: "Sangat Memuaskan" },
+            { no: 15, nim: "201965037", nama: "ROBERT YEMAISE", ipk: 2.96, semester: 13, bulan: 75, predikat: "Sangat Memuaskan" },
+            { no: 16, nim: "202065036", nama: "ARINDA KRANIA PRAMESWARA", ipk: 2.91, semester: 11, bulan: 63, predikat: "Memuaskan" },
+            { no: 17, nim: "202165056", nama: "TIMOTI JAMES KAWAY", ipk: 2.91, semester: 9, bulan: 51, predikat: "Memuaskan" },
+            { no: 18, nim: "201865040", nama: "JOSIA FAJAR NADEAK", ipk: 2.90, semester: 15, bulan: 87, predikat: "Memuaskan" },
+            { no: 19, nim: "201865026", nama: "JENIANTI BETTENG", ipk: 2.73, semester: 15, bulan: 87, predikat: "Memuaskan" }
         ];
 
         function getIPKClass(ipk) {
