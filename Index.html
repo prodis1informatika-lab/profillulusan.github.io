@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Lulusan Mahasiswa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .header-text h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header-text p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .filters {
+            padding: 20px 30px;
+            background: white;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        select, input {
+            padding: 8px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: #667eea;
+        }
+
+        .table-container {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: background-color 0.3s;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-good {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .ipk-high {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .ipk-medium {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .ipk-low {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-text h1 {
+                font-size: 22px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">UP</div>
+            <div class="header-text">
+                <h1>UNIVERSITAS PAPUA - FAKULTAS TEKNIK</h1>
+                <p>Profil Lulusan Mahasiswa - Program Studi Teknik Informatika S1 Reguler</p>
+                <p>Yudisium Periode I Tahun Akademik 2025/2026</p>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="totalLulusan">18</div>
+                <div class="stat-label">Total Lulusan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="ipkRata">3.19</div>
+                <div class="stat-label">IPK Rata-rata</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="sangatMemuaskan">16</div>
+                <div class="stat-label">Sangat Memuaskan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="memuaskan">2</div>
+                <div class="stat-label">Memuaskan</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label>Filter Predikat:</label>
+                <select id="filterPredikat">
+                    <option value="">Semua</option>
+                    <option value="Sangat Memuaskan">Sangat Memuaskan</option>
+                    <option value="Memuaskan">Memuaskan</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Cari Nama:</label>
+                <input type="text" id="searchName" placeholder="Ketik nama mahasiswa...">
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="mahasiswaTable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>IPK</th>
+                        <th>Lama Studi</th>
+                        <th>Predikat</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const mahasiswaData = [
+            { no: 1, nim: "202165011", nama: "MIZHAEL PARUBAK", ipk: 3.57, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 2, nim: "201865052", nama: "EMI ZUHAIMI", ipk: 3.48, semester: 15, bulan: 87, predikat: "Sangat Memuaskan" },
+            { no: 3, nim: "202165035", nama: "JOSHUA ADRIEL BEMEY", ipk: 3.48, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 4, nim: "202165001", nama: "RITA SOVIANA", ipk: 3.47, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 5, nim: "202165054", nama: "DINDA MALIKA DWI PRATIWI", ipk: 3.41, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 6, nim: "202165041", nama: "ARNIAWATI", ipk: 3.36, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 7, nim: "202165008", nama: "YOHAN DWI BACHTIAR", ipk: 3.25, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 8, nim: "202165027", nama: "CHARLES PADWA", ipk: 3.34, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 9, nim: "202065037", nama: "ARI FAOLI", ipk: 3.33, semester: 11, bulan: 63, predikat: "Sangat Memuaskan" },
+            { no: 10, nim: "202165031", nama: "DANIEL LAERAH", ipk: 3.29, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 11, nim: "202165051", nama: "GLENN MARTHIN KAMBU", ipk: 3.24, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 12, nim: "202165006", nama: "CHARLIE CHRISTOVEL WATOPA", ipk: 3.16, semester: 9, bulan: 51, predikat: "Sangat Memuaskan" },
+            { no: 13, nim: "202065013", nama: "YORDAN ARISTA", ipk: 3.11, semester: 11, bulan: 63, predikat: "Sangat Memuaskan" },
+            { no: 14, nim: "201965037", nama: "ROBERT YEMAISE", ipk: 2.96, semester: 13, bulan: 75, predikat: "Sangat Memuaskan" },
+            { no: 15, nim: "202065036", nama: "ARINDA KRANIA PRAMESWARA", ipk: 2.91, semester: 11, bulan: 63, predikat: "Sangat Memuaskan" },
+            { no: 16, nim: "202165056", nama: "TIMOTI JAMES KAWAY", ipk: 2.91, semester: 9, bulan: 51, predikat: "Memuaskan" },
+            { no: 17, nim: "201865040", nama: "SOSIA FADAS MAFEAK", ipk: 2.90, semester: 15, bulan: 87, predikat: "Memuaskan" },
+            { no: 18, nim: "201865026", nama: "JENIANTI BETTENG", ipk: 2.73, semester: 15, bulan: 87, predikat: "Memuaskan" }
+        ];
+
+        function getIPKClass(ipk) {
+            if (ipk >= 3.50) return 'ipk-high';
+            if (ipk >= 3.00) return 'ipk-medium';
+            return 'ipk-low';
+        }
+
+        function getPredikatBadge(predikat) {
+            if (predikat === "Sangat Memuaskan") {
+                return '<span class="badge badge-excellent">Sangat Memuaskan</span>';
+            }
+            return '<span class="badge badge-good">Memuaskan</span>';
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach((mhs) => {
+                const row = `
+                    <tr>
+                        <td>${mhs.no}</td>
+                        <td>${mhs.nim}</td>
+                        <td><strong>${mhs.nama}</strong></td>
+                        <td><span class="${getIPKClass(mhs.ipk)}">${mhs.ipk}</span></td>
+                        <td>${mhs.semester} Semester (${mhs.bulan} Bulan)</td>
+                        <td>${getPredikatBadge(mhs.predikat)}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function filterData() {
+            const predikatFilter = document.getElementById('filterPredikat').value;
+            const searchName = document.getElementById('searchName').value.toLowerCase();
+            
+            let filtered = mahasiswaData;
+            
+            if (predikatFilter) {
+                filtered = filtered.filter(mhs => mhs.predikat === predikatFilter);
+            }
+            
+            if (searchName) {
+                filtered = filtered.filter(mhs => mhs.nama.toLowerCase().includes(searchName));
+            }
+            
+            renderTable(filtered);
+            
+            document.getElementById('totalLulusan').textContent = filtered.length;
+        }
+
+        document.getElementById('filterPredikat').addEventListener('change', filterData);
+        document.getElementById('searchName').addEventListener('input', filterData);
+
+        renderTable(mahasiswaData);
+    </script>
+</body>
+</html>
